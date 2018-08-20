@@ -1,0 +1,3906 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>TM_vzw_tax_summary</name>
+    <description>Trademore VZW Tax Summary Report</description>
+    <extended_description>SCRIPT NAME : TM_vzw_tax_summary.ktr
+      USAGE : TM_vzw_tax_summary.ktr -RUN_DT &lt;date,YYYY-MM-DD> -START_DT &lt;date,YYYY-MM-DD> -END_DT &lt;date,YYYY-MM-DD>
+DESCRIPTION : The ktr extracts the Bill, Cash Credits and corresponding Tax data from OBIAR tables and format the data to need specification to 
+              to create report.
+     OUTPUT : ${OUTPUT_BASE_DIR}/TRADEMORE_TAX/trademore_vzw_tax_summary_report_${START_DT}_${END_DT}_${RUN_DT}.txt</extended_description>
+    <trans_version>1.0</trans_version>
+    <trans_type>Normal</trans_type>
+    <trans_status>2</trans_status>
+    <directory>/</directory>
+    <parameters>
+      <parameter>
+        <name>END_DT</name>
+        <default_value />
+        <description>End date of the report , Format - YYYY-MM-DD</description>
+      </parameter>
+      <parameter>
+        <name>RUN_DT</name>
+        <default_value />
+        <description>Execution date of the ktr, Format - YYYY-M-DD</description>
+      </parameter>
+      <parameter>
+        <name>START_DT</name>
+        <default_value />
+        <description>Start date of the report, Format - YYYY-MM-DD</description>
+      </parameter>
+    </parameters>
+    <log>
+      <trans-log-table>
+        <connection />
+        <schema />
+        <table />
+        <size_limit_lines />
+        <interval />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STATUS</id>
+          <enabled>Y</enabled>
+          <name>STATUS</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+          <subject />
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>STARTDATE</id>
+          <enabled>Y</enabled>
+          <name>STARTDATE</name>
+        </field>
+        <field>
+          <id>ENDDATE</id>
+          <enabled>Y</enabled>
+          <name>ENDDATE</name>
+        </field>
+        <field>
+          <id>LOGDATE</id>
+          <enabled>Y</enabled>
+          <name>LOGDATE</name>
+        </field>
+        <field>
+          <id>DEPDATE</id>
+          <enabled>Y</enabled>
+          <name>DEPDATE</name>
+        </field>
+        <field>
+          <id>REPLAYDATE</id>
+          <enabled>Y</enabled>
+          <name>REPLAYDATE</name>
+        </field>
+        <field>
+          <id>LOG_FIELD</id>
+          <enabled>Y</enabled>
+          <name>LOG_FIELD</name>
+        </field>
+        <field>
+          <id>EXECUTING_SERVER</id>
+          <enabled>N</enabled>
+          <name>EXECUTING_SERVER</name>
+        </field>
+        <field>
+          <id>EXECUTING_USER</id>
+          <enabled>N</enabled>
+          <name>EXECUTING_USER</name>
+        </field>
+        <field>
+          <id>CLIENT</id>
+          <enabled>N</enabled>
+          <name>CLIENT</name>
+        </field>
+      </trans-log-table>
+      <perf-log-table>
+        <connection />
+        <schema />
+        <table />
+        <interval />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>SEQ_NR</id>
+          <enabled>Y</enabled>
+          <name>SEQ_NR</name>
+        </field>
+        <field>
+          <id>LOGDATE</id>
+          <enabled>Y</enabled>
+          <name>LOGDATE</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STEPNAME</id>
+          <enabled>Y</enabled>
+          <name>STEPNAME</name>
+        </field>
+        <field>
+          <id>STEP_COPY</id>
+          <enabled>Y</enabled>
+          <name>STEP_COPY</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>INPUT_BUFFER_ROWS</id>
+          <enabled>Y</enabled>
+          <name>INPUT_BUFFER_ROWS</name>
+        </field>
+        <field>
+          <id>OUTPUT_BUFFER_ROWS</id>
+          <enabled>Y</enabled>
+          <name>OUTPUT_BUFFER_ROWS</name>
+        </field>
+      </perf-log-table>
+      <channel-log-table>
+        <connection />
+        <schema />
+        <table />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>LOGGING_OBJECT_TYPE</id>
+          <enabled>Y</enabled>
+          <name>LOGGING_OBJECT_TYPE</name>
+        </field>
+        <field>
+          <id>OBJECT_NAME</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_NAME</name>
+        </field>
+        <field>
+          <id>OBJECT_COPY</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_COPY</name>
+        </field>
+        <field>
+          <id>REPOSITORY_DIRECTORY</id>
+          <enabled>Y</enabled>
+          <name>REPOSITORY_DIRECTORY</name>
+        </field>
+        <field>
+          <id>FILENAME</id>
+          <enabled>Y</enabled>
+          <name>FILENAME</name>
+        </field>
+        <field>
+          <id>OBJECT_ID</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_ID</name>
+        </field>
+        <field>
+          <id>OBJECT_REVISION</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_REVISION</name>
+        </field>
+        <field>
+          <id>PARENT_CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>PARENT_CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>ROOT_CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>ROOT_CHANNEL_ID</name>
+        </field>
+      </channel-log-table>
+      <step-log-table>
+        <connection />
+        <schema />
+        <table />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STEPNAME</id>
+          <enabled>Y</enabled>
+          <name>STEPNAME</name>
+        </field>
+        <field>
+          <id>STEP_COPY</id>
+          <enabled>Y</enabled>
+          <name>STEP_COPY</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>LOG_FIELD</id>
+          <enabled>N</enabled>
+          <name>LOG_FIELD</name>
+        </field>
+      </step-log-table>
+      <metrics-log-table>
+        <connection />
+        <schema />
+        <table />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>METRICS_DATE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_DATE</name>
+        </field>
+        <field>
+          <id>METRICS_CODE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_CODE</name>
+        </field>
+        <field>
+          <id>METRICS_DESCRIPTION</id>
+          <enabled>Y</enabled>
+          <name>METRICS_DESCRIPTION</name>
+        </field>
+        <field>
+          <id>METRICS_SUBJECT</id>
+          <enabled>Y</enabled>
+          <name>METRICS_SUBJECT</name>
+        </field>
+        <field>
+          <id>METRICS_TYPE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_TYPE</name>
+        </field>
+        <field>
+          <id>METRICS_VALUE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_VALUE</name>
+        </field>
+      </metrics-log-table>
+    </log>
+    <maxdate>
+      <connection />
+      <table />
+      <field />
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file />
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+    <created_user>-</created_user>
+    <created_date>2018/04/24 10:46:43.509</created_date>
+    <modified_user>-</modified_user>
+    <modified_date>2018/04/24 10:46:43.509</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
+    <is_key_private>N</is_key_private>
+  </info>
+  <notepads>
+    <notepad>
+      <note>   SCRIPT NAME : TM_vzw_tax_summary.ktr
+         USAGE : TM_vzw_tax_summary.ktr -RUN_DT &lt;date,YYYY-MM-DD> -START_DT &lt;date,YYYY-MM-DD> -END_DT &lt;date,YYYY-MM-DD>
+   DESCRIPTION : The ktr extracts the Bill, Cash Credits and corresponding Tax data from OBIAR tables and format the data to need specification to 
+                 to create report.
+        OUTPUT : ${OUTPUT_DIR}/TM_vzw_tax_summary_report_*.txt</note>
+      <xloc>16</xloc>
+      <yloc>16</yloc>
+      <width>1069</width>
+      <heigth>80</heigth>
+      <fontname>Courier</fontname>
+      <fontsize>12</fontsize>
+      <fontbold>Y</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>4</fontcolorred>
+      <fontcolorgreen>50</fontcolorgreen>
+      <fontcolorblue>255</fontcolorblue>
+      <backgroundcolorred>254</backgroundcolorred>
+      <backgroundcolorgreen>255</backgroundcolorgreen>
+      <backgroundcolorblue>255</backgroundcolorblue>
+      <bordercolorred>254</bordercolorred>
+      <bordercolorgreen>255</bordercolorgreen>
+      <bordercolorblue>255</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>If the file is empty , Add an header to the file. 
+Note : Text file output - TM_vzw_tax_summary_report - If empty, Write Header 
+       - Has Header option under content tab is Unchecked.
+       - The header is generated as part of data.  
+
+The final file uses CR+LF terminated (Windows,DOS) as newline
+as per the file format requirement.</note>
+      <xloc>1136</xloc>
+      <yloc>320</yloc>
+      <width>565</width>
+      <heigth>108</heigth>
+      <fontname>Courier</fontname>
+      <fontsize>12</fontsize>
+      <fontbold>Y</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>4</fontcolorred>
+      <fontcolorgreen>50</fontcolorgreen>
+      <fontcolorblue>255</fontcolorblue>
+      <backgroundcolorred>254</backgroundcolorred>
+      <backgroundcolorgreen>255</backgroundcolorgreen>
+      <backgroundcolorblue>255</backgroundcolorblue>
+      <bordercolorred>254</bordercolorred>
+      <bordercolorgreen>255</bordercolorgreen>
+      <bordercolorblue>255</bordercolorblue>
+      <drawshadow>N</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Gross is overstated in this section by design. 
+VZW tax interprets the report in a different way. 
+For each row of data , the following calculation 
+holds true Gross * Rate = Tax. </note>
+      <xloc>464</xloc>
+      <yloc>208</yloc>
+      <width>371</width>
+      <heigth>66</heigth>
+      <fontname>Courier</fontname>
+      <fontsize>12</fontsize>
+      <fontbold>Y</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>4</fontcolorred>
+      <fontcolorgreen>50</fontcolorgreen>
+      <fontcolorblue>255</fontcolorblue>
+      <backgroundcolorred>254</backgroundcolorred>
+      <backgroundcolorgreen>255</backgroundcolorgreen>
+      <backgroundcolorblue>255</backgroundcolorblue>
+      <bordercolorred>254</bordercolorred>
+      <bordercolorgreen>255</bordercolorgreen>
+      <bordercolorblue>255</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+  </notepads>
+  <connection>
+    <name>OBIAR</name>
+    <server />
+    <type>ORACLE</type>
+    <access>Native</access>
+    <database>${OBIAR_DATABASE_NAME}</database>
+    <port>-1</port>
+    <username>${OBIAR_DBUSER1}</username>
+    <password>${OBIAR_DBPASSWD1}</password>
+    <servername />
+    <data_tablespace />
+    <index_tablespace />
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>-1</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STRICT_NUMBER_38_INTERPRETATION</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
+  <order>
+    <hop>
+      <from>Detect empty stream</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Set field value to a constant</from>
+      <to>Text file output - TM_vzw_tax_summary_report - If empty, Write Header</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Text file output - TM_vzw_tax_summary_report - Main</from>
+      <to>Detect empty stream</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Set field value to a constant</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Modified Java Script Value - tax_level</from>
+      <to>Sort rows - By key to get uniques</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows - By key to get uniques</from>
+      <to>Unique rows- Master</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows- Master</from>
+      <to>Select values - Master</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows - Bill id</from>
+      <to>Unique rows - Bill id</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows - Gross</from>
+      <to>Group by - Gross</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows - Tax</from>
+      <to>Group by - Tax</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Modified Java Script Value - tax_level</from>
+      <to>Sort rows - Tax</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values - Master</from>
+      <to>Merge Join - Master + Gross</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Group by - Gross</from>
+      <to>Merge Join - Master + Gross</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge Join - Master + Gross</from>
+      <to>Merge Join - (Master + Gross) + Tax</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Group by - Tax</from>
+      <to>Merge Join - (Master + Gross) + Tax</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge Join - (Master + Gross) + Tax</from>
+      <to>Microsoft Excel Writer- TM_vzw_tax_summary_report</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge Join - (Master + Gross) + Tax</from>
+      <to>Text file output - TM_vzw_tax_summary_report - Main</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge Join - (Master + Gross) + Tax</from>
+      <to>Group by - Row Count</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge Join - (Master + Gross) + Tax</from>
+      <to>Group by - Total Tax</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Group by - Row Count</from>
+      <to>Add constants - Count</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Group by - Total Gross</from>
+      <to>Add constants - Gross</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Group by - Total Tax</from>
+      <to>Add constants - Tax</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add constants - Count</from>
+      <to>Merge Join - Count + Gross</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add constants - Gross</from>
+      <to>Merge Join - Count + Gross</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge Join - Count + Gross</from>
+      <to>Merge Join - (Count + Gross) + Tax</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add constants - Tax</from>
+      <to>Merge Join - (Count + Gross) + Tax</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge Join - (Count + Gross) + Tax</from>
+      <to>Select values - Metrics</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values - Metrics</from>
+      <to>Text file output - TM_vzw_tax_summary_report_metrics</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Modified Java Script Value - tax_level</from>
+      <to>Sort rows - Gross</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows - Bill id</from>
+      <to>Group by - Total Gross</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Modified Java Script Value - tax_level</from>
+      <to>Sort rows - Bill id</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input- Fetch Bill and Tax</from>
+      <to>Modified Java Script Value - tax_level</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - Fetch Cash Credits and Tax</from>
+      <to>Modified Java Script Value - tax_level</to>
+      <enabled>Y</enabled>
+    </hop>
+  </order>
+  <step>
+    <name>Add constants - Count</name>
+    <type>Constant</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>IDENTIFIER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>TMORE SUMMARY</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>432</xloc>
+      <yloc>544</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add constants - Gross</name>
+    <type>Constant</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>IDENTIFIER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>TMORE SUMMARY</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>528</xloc>
+      <yloc>656</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add constants - Tax</name>
+    <type>Constant</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>IDENTIFIER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>TMORE SUMMARY</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>752</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Detect empty stream</name>
+    <type>DetectEmptyStream</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1136</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Group by - Gross</name>
+    <type>GroupBy</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <all_rows>N</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore />
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname />
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+      </field>
+      <field>
+        <name>MARKET</name>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <aggregate>GROSS_REVENUE_SUM</aggregate>
+        <subject>GROSS_REVENUE</subject>
+        <type>SUM</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>EXEMPT_REVENUE_SUM</aggregate>
+        <subject>EXEMPT_REVENUE</subject>
+        <type>SUM</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>TAXABLE_REVENUE_SUM</aggregate>
+        <subject>TAXABLE_REVENUE</subject>
+        <type>SUM</type>
+        <valuefield />
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>800</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Group by - Row Count</name>
+    <type>GroupBy</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <all_rows>N</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore />
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname />
+    <give_back_row>N</give_back_row>
+    <group>
+      </group>
+    <fields>
+      <field>
+        <aggregate>TOTAL_ROW_COUNT </aggregate>
+        <subject />
+        <type>COUNT_ANY</type>
+        <valuefield />
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>272</xloc>
+      <yloc>544</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Group by - Tax</name>
+    <type>GroupBy</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <all_rows>N</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore />
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname />
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+      </field>
+      <field>
+        <name>MARKET</name>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <aggregate>TAX_AMOUNT_SUM</aggregate>
+        <subject>TAX_AMOUNT</subject>
+        <type>SUM</type>
+        <valuefield />
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>400</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Group by - Total Gross</name>
+    <type>GroupBy</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <all_rows>N</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore />
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname />
+    <give_back_row>N</give_back_row>
+    <group>
+      </group>
+    <fields>
+      <field>
+        <aggregate>TOTAL_GROSS_AMOUNT</aggregate>
+        <subject>GROSS_REVENUE</subject>
+        <type>SUM</type>
+        <valuefield />
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>288</xloc>
+      <yloc>656</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Group by - Total Tax</name>
+    <type>GroupBy</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <all_rows>N</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore />
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname />
+    <give_back_row>N</give_back_row>
+    <group>
+      </group>
+    <fields>
+      <field>
+        <aggregate>TOTAL_TAX_AMOUNT</aggregate>
+        <subject>TAX_AMOUNT_SUM</subject>
+        <type>SUM</type>
+        <valuefield />
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>272</xloc>
+      <yloc>752</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge Join - (Count + Gross) + Tax</name>
+    <type>MergeJoin</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Merge Join - Count + Gross</step1>
+    <step2>Add constants - Tax</step2>
+    <keys_1>
+      <key>IDENTIFIER</key>
+    </keys_1>
+    <keys_2>
+      <key>IDENTIFIER</key>
+    </keys_2>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>768</xloc>
+      <yloc>752</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge Join - (Master + Gross) + Tax</name>
+    <type>MergeJoin</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Merge Join - Master + Gross</step1>
+    <step2>Group by - Tax</step2>
+    <keys_1>
+      <key>SYSTEM_SOURCE</key>
+      <key>TAX_PERIOD</key>
+      <key>MARKET</key>
+      <key>ACCOUNT</key>
+      <key>STORE_ID</key>
+      <key>VERTEX_GEOCODE</key>
+      <key>TAX_LEVEL</key>
+      <key>JURIS_DESC</key>
+      <key>TAX_TYPE</key>
+      <key>TAX_CATEGORY</key>
+      <key>TAX_DESC</key>
+      <key>REVENUE_DESC</key>
+      <key>TAX_RATE</key>
+      <key>TAX_AUTH_ID</key>
+    </keys_1>
+    <keys_2>
+      <key>SYSTEM_SOURCE</key>
+      <key>TAX_PERIOD</key>
+      <key>MARKET</key>
+      <key>ACCOUNT</key>
+      <key>STORE_ID</key>
+      <key>VERTEX_GEOCODE</key>
+      <key>TAX_LEVEL</key>
+      <key>JURIS_DESC</key>
+      <key>TAX_TYPE</key>
+      <key>TAX_CATEGORY</key>
+      <key>TAX_DESC</key>
+      <key>REVENUE_DESC</key>
+      <key>TAX_RATE</key>
+      <key>TAX_AUTH_ID</key>
+    </keys_2>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>960</xloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge Join - Count + Gross</name>
+    <type>MergeJoin</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Add constants - Count</step1>
+    <step2>Add constants - Gross</step2>
+    <keys_1>
+      <key>IDENTIFIER</key>
+    </keys_1>
+    <keys_2>
+      <key>IDENTIFIER</key>
+    </keys_2>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>640</xloc>
+      <yloc>592</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge Join - Master + Gross</name>
+    <type>MergeJoin</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <join_type>LEFT OUTER</join_type>
+    <step1>Select values - Master</step1>
+    <step2>Group by - Gross</step2>
+    <keys_1>
+      <key>SYSTEM_SOURCE</key>
+      <key>TAX_PERIOD</key>
+      <key>MARKET</key>
+      <key>ACCOUNT</key>
+      <key>STORE_ID</key>
+      <key>VERTEX_GEOCODE</key>
+      <key>TAX_LEVEL</key>
+      <key>JURIS_DESC</key>
+      <key>TAX_TYPE</key>
+      <key>TAX_CATEGORY</key>
+      <key>TAX_DESC</key>
+      <key>REVENUE_DESC</key>
+      <key>TAX_RATE</key>
+      <key>TAX_AUTH_ID</key>
+    </keys_1>
+    <keys_2>
+      <key>SYSTEM_SOURCE</key>
+      <key>TAX_PERIOD</key>
+      <key>MARKET</key>
+      <key>ACCOUNT</key>
+      <key>STORE_ID</key>
+      <key>VERTEX_GEOCODE</key>
+      <key>TAX_LEVEL</key>
+      <key>JURIS_DESC</key>
+      <key>TAX_TYPE</key>
+      <key>TAX_CATEGORY</key>
+      <key>TAX_DESC</key>
+      <key>REVENUE_DESC</key>
+      <key>TAX_RATE</key>
+      <key>TAX_AUTH_ID</key>
+    </keys_2>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Microsoft Excel Writer- TM_vzw_tax_summary_report</name>
+    <type>TypeExitExcelWriterStep</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <header>Y</header>
+    <footer>N</footer>
+    <makeSheetActive>Y</makeSheetActive>
+    <rowWritingMethod>overwrite</rowWritingMethod>
+    <startingCell>A1</startingCell>
+    <appendOmitHeader>N</appendOmitHeader>
+    <appendOffset>0</appendOffset>
+    <appendEmpty>0</appendEmpty>
+    <rowWritingMethod>overwrite</rowWritingMethod>
+    <forceFormulaRecalculation>N</forceFormulaRecalculation>
+    <leaveExistingStylesUnchanged>N</leaveExistingStylesUnchanged>
+    <appendLines>N</appendLines>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <file>
+      <name>${OUTPUT_DIR}/TM_vzw_tax_summary_report_${START_DT}_${END_DT}_${RUN_DT}</name>
+      <extention>xlsx</extention>
+      <do_not_open_newfile_init>N</do_not_open_newfile_init>
+      <split>N</split>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format />
+      <sheetname>Summary</sheetname>
+      <autosizecolums>N</autosizecolums>
+      <stream_data>N</stream_data>
+      <protect_sheet>N</protect_sheet>
+      <password>Encrypted </password>
+      <protected_by />
+      <splitevery>0</splitevery>
+      <if_file_exists>new</if_file_exists>
+      <if_sheet_exists>reuse</if_sheet_exists>
+    </file>
+    <template>
+      <enabled>N</enabled>
+      <sheet_enabled>N</sheet_enabled>
+      <filename>template.xls</filename>
+      <sheetname />
+      <hidden>N</hidden>
+    </template>
+    <fields>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+        <type>String</type>
+        <format />
+        <title>SYSTEM_SOURCE</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+        <type>String</type>
+        <format />
+        <title>TAX_PERIOD</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>MARKET</name>
+        <type>String</type>
+        <format />
+        <title>MARKET</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+        <type>String</type>
+        <format />
+        <title>ACCOUNT</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>STORE_ID</name>
+        <type>String</type>
+        <format />
+        <title>STORE_ID</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+        <type>BigNumber</type>
+        <format />
+        <title>VERTEX_GEOCODE</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+        <type>String</type>
+        <format />
+        <title>TAX_LEVEL</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+        <type>String</type>
+        <format />
+        <title>JURIS_DESC</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+        <type>String</type>
+        <format />
+        <title>TAX_TYPE</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+        <type>String</type>
+        <format />
+        <title>TAX_CATEGORY</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+        <type>String</type>
+        <format />
+        <title>TAX_DESC</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>GROSS_REVENUE_SUM</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <title>GROSS_REVENUE</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <type>String</type>
+        <format />
+        <title>REVENUE_DESC</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>EXEMPT_REVENUE_SUM</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <title>EXEMPT_REVENUE</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>TAXABLE_REVENUE_SUM</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <title>TAXABLE_REVENUE</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+        <type>Number</type>
+        <format />
+        <title>TAX_RATE</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>TAX_AMOUNT_SUM</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <title>TAX_AMOUNT</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+        <type>String</type>
+        <format />
+        <title>TAX_AUTH_ID</title>
+        <titleStyleCell />
+        <styleCell />
+        <commentField />
+        <commentAuthorField />
+        <formula>N</formula>
+        <hyperlinkField />
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>960</xloc>
+      <yloc>560</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Modified Java Script Value - tax_level</name>
+    <type>ScriptValueMod</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>tax_type_transform</jsScript_name>
+        <jsScript_script>//Compute TAX_TYPE per VZW mapping
+
+var tmp_tax_level;
+
+if ((TP_SHORT_DESC == 'STATE') || (TP_SHORT_DESC == 'addl state tax'))  {
+  tmp_tax_level = 2
+}
+else if ((TP_SHORT_DESC == 'COUNTY') || (TP_SHORT_DESC == 'addl county tax')) {
+   tmp_tax_level = 3
+}
+else if ((TP_SHORT_DESC == 'CITY') || (TP_SHORT_DESC == 'addl city tax')) {
+   tmp_tax_level = 4
+}
+else if ((TP_SHORT_DESC == 'DISTRICT') || (TP_SHORT_DESC == 'addl district tax')) {
+   tmp_tax_level = 5
+}
+else if (TP_SHORT_DESC == 'PARISH') {
+   tmp_tax_level = 5
+}
+else {tmp_tax_level = 99}
+
+
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>tmp_tax_level</name>
+        <rename>TAX_LEVEL</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>SYSTEM_SOURCE</name>
+        <rename>SYSTEM_SOURCE</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TAX_PERIOD</name>
+        <rename>TAX_PERIOD</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>MARKET</name>
+        <rename>MARKET</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>ACCOUNT</name>
+        <rename>ACCOUNT</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>STORE_ID</name>
+        <rename>STORE_ID</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>VERTEX_GEOCODE</name>
+        <rename>VERTEX_GEOCODE</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TAX_LEVEL</name>
+        <rename>TAX_LEVEL</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>JURIS_DESC</name>
+        <rename>JURIS_DESC</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TAX_TYPE</name>
+        <rename>TAX_TYPE</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TAX_CATEGORY</name>
+        <rename>TAX_CATEGORY</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TAX_DESC</name>
+        <rename>TAX_DESC</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>GROSS_REVENUE</name>
+        <rename>GROSS_REVENUE</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>REVENUE_DESC</name>
+        <rename>REVENUE_DESC</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>EXEMPT_REVENUE</name>
+        <rename>EXEMPT_REVENUE</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TAXABLE_REVENUE</name>
+        <rename>TAXABLE_REVENUE</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TAX_RATE</name>
+        <rename>TAX_RATE</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TAX_AMOUNT</name>
+        <rename>TAX_AMOUNT</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TAX_AUTH_ID</name>
+        <rename>TAX_AUTH_ID</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1296</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values - Master</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+      </field>
+      <field>
+        <name>MARKET</name>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>704</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values - Metrics</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>IDENTIFIER</name>
+      </field>
+      <field>
+        <name>TOTAL_ROW_COUNT </name>
+      </field>
+      <field>
+        <name>TOTAL_GROSS_AMOUNT</name>
+      </field>
+      <field>
+        <name>TOTAL_TAX_AMOUNT</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>IDENTIFIER</name>
+        <rename>IDENTIFIER</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TOTAL_ROW_COUNT </name>
+        <rename>TOTAL_ROW_COUNT </rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask />
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TOTAL_GROSS_AMOUNT</name>
+        <rename>TOTAL_GROSS_AMOUNT</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>0.00</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>TOTAL_TAX_AMOUNT</name>
+        <rename>TOTAL_TAX_AMOUNT</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>0.00</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>944</xloc>
+      <yloc>656</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Set field value to a constant</name>
+    <type>SetValueConstant</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <usevar>N</usevar>
+    <fields>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+        <value>SYSTEM_SOURCE</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+        <value>TAX_PERIOD</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>MARKET</name>
+        <value>MARKET</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+        <value>ACCOUNT</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+        <value>STORE_ID</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+        <value>VERTEX_GEOCODE</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+        <value>TAX_LEVEL</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+        <value>JURIS_DESC</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+        <value>TAX_TYPE</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+        <value>TAX_CATEGORY</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+        <value>TAX_DESC</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>GROSS_REVENUE</name>
+        <value>GROSS_REVENUE</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <value>REVENUE_DESC</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>EXEMPT_REVENUE</name>
+        <value>EXEMPT_REVENUE</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAXABLE_REVENUE</name>
+        <value>TAXABLE_REVENUE</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+        <value>TAX_RATE</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAX_AMOUNT</name>
+        <value>TAX_AMOUNT</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+        <value>TAX_AUTH_ID</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1456</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows - Bill id</name>
+    <type>SortRows</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>20000</sort_size>
+    <free_memory />
+    <compress>N</compress>
+    <compress_variable />
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>INDICATOR</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>LINE_ITEM_BILL_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>656</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows - By key to get uniques</name>
+    <type>SortRows</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>20000</sort_size>
+    <free_memory />
+    <compress>N</compress>
+    <compress_variable />
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>MARKET</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>352</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows - Gross</name>
+    <type>SortRows</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>20000</sort_size>
+    <free_memory />
+    <compress>N</compress>
+    <compress_variable />
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>MARKET</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows - Tax</name>
+    <type>SortRows</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>20000</sort_size>
+    <free_memory />
+    <compress>N</compress>
+    <compress_variable />
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>MARKET</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>544</xloc>
+      <yloc>400</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table input - Fetch Cash Credits and Tax</name>
+    <type>TableInput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>OBIAR</connection>
+    <sql>SELECT 
+       'C101' AS indicator,
+       bill.line_item_bill_id, 
+       bal.line_item_balance_id,
+       bi.balance_impact_id,
+       t.tax_id,  
+       td.tax_type_id,
+       TO_CHAR(cc.cash_credit_id) AS cash_credit_id,
+       TO_CHAR(cc.issue_dt,'YYYY-MM-DD') AS activity_dt,
+       'TRADEMORE' AS system_source,
+       TO_CHAR(TO_DATE('${END_DT}', 'YYYY-MM-DD'),'YYYYMM') AS tax_period, -- For TradeMore it has to be END_DT
+       '700260' AS market,
+       (
+        CASE WHEN t.state_province = 'AZ' THEN '490213'
+             WHEN t.state_province = 'HI' THEN '490213'
+             WHEN t.state_province = 'NM' THEN '490213'
+             ELSE '224013' 
+        END     
+       ) AS account,
+       'TM75038' AS store_id,
+       NVL(LPAD(t.customer_taid,9,0),'000000000') AS vertex_geocode,
+       NVL(tp.short_desc,'NONE') AS tp_short_desc,  -- will be used to derive tax_level
+       '' AS juris_desc,
+       (
+        CASE WHEN t.state_province = 'AZ' THEN 'GR'
+             WHEN t.state_province = 'HI' THEN 'GR'
+             WHEN t.state_province = 'NM' THEN 'GR'
+             ELSE 'SA' 
+        END     
+       ) AS tax_type,
+       '' AS tax_category,
+       CONCAT(CONCAT(t.state_province,'-'),td.imposition_type) AS tax_desc,
+       td.taxable_amount/100 AS gross_revenue,
+       'PHONE' AS revenue_desc,
+       0.00 AS exempt_revenue,
+       td.taxable_amount/100 AS taxable_revenue,
+       td.rate AS tax_rate,
+       td.amount/100 AS tax_amount,
+       '' AS tax_auth_id
+
+FROM cash_credit cc,
+     line_item_bill bill,
+     billed_line_item_balance blib,
+     line_item_balance bal,
+     balance_impact bi,
+     tax t,
+     tax_detail td,
+     tax_type tp
+
+WHERE 
+      bi.created_dt >= TO_DATE('${START_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bi.created_dt &lt; TO_DATE('${END_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND cc.lineitem=148
+  AND cc.line_item_bill_id = bill.line_item_bill_id
+  AND bill.line_item_bill_id = blib.line_item_bill_id
+  AND blib.line_item_balance_id = bal.line_item_balance_id
+  AND bal.line_item_balance_id = bi.line_item_balance_id
+  AND bi.activity_reason_code = 'tax101' -- tax101 : All cash_credits except cash_credit_id=7
+  AND bill.lineitem = 148
+  AND bi.tax_id = t.tax_id
+  AND t.tax_id = td.tax_id
+  AND td.tax_type_id = tp.tax_type_id(+)
+
+UNION ALL
+
+SELECT 
+       'C102' AS indicator,
+       bill.line_item_bill_id, 
+       bal.line_item_balance_id,
+       bi.balance_impact_id,
+       t.tax_id,  
+       td.tax_type_id,
+       TO_CHAR(cc.cash_credit_id) AS cash_credit_id,
+       TO_CHAR(cc.issue_dt,'YYYY-MM-DD') AS activity_dt,
+       'TRADEMORE' AS system_source,
+       TO_CHAR(TO_DATE('${END_DT}', 'YYYY-MM-DD'),'YYYYMM') AS tax_period, -- For TradeMore it has to be END_DT
+       '700260' AS market,
+       (
+        CASE WHEN t.state_province = 'AZ' THEN '490213'
+             WHEN t.state_province = 'HI' THEN '490213'
+             WHEN t.state_province = 'NM' THEN '490213'
+             ELSE '224013' 
+        END     
+       ) AS account,
+       'TM75038' AS store_id,
+       NVL(LPAD(t.customer_taid,9,0),'000000000') AS vertex_geocode,
+       NVL(tp.short_desc,'NONE') AS tp_short_desc,  -- will be used to derive tax_level
+       '' AS juris_desc,
+       (
+        CASE WHEN t.state_province = 'AZ' THEN 'GR'
+             WHEN t.state_province = 'HI' THEN 'GR'
+             WHEN t.state_province = 'NM' THEN 'GR'
+             ELSE 'SA' 
+        END     
+       ) AS tax_type,
+       '' AS tax_category,
+       CONCAT(CONCAT(t.state_province,'-'),td.imposition_type) AS tax_desc,
+       td.taxable_amount/100 AS gross_revenue,
+       'PHONE' AS revenue_desc,
+       0.00 AS exempt_revenue,
+       td.taxable_amount/100 AS taxable_revenue,
+       td.rate AS tax_rate,
+       td.amount/100 AS tax_amount,
+       '' AS tax_auth_id
+
+FROM cash_credit cc,
+     line_item_bill bill,
+     billed_line_item_balance blib,
+     line_item_balance bal,
+     balance_impact bi,
+     tax t,
+     tax_detail td,
+     tax_type tp
+
+WHERE 
+      bi.created_dt >= TO_DATE('${START_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bi.created_dt &lt; TO_DATE('${END_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND cc.lineitem=148
+  AND cc.line_item_bill_id = bill.line_item_bill_id
+  AND bill.line_item_bill_id = blib.line_item_bill_id
+  AND blib.line_item_balance_id = bal.line_item_balance_id
+  AND bal.line_item_balance_id = bi.line_item_balance_id
+  AND bi.activity_reason_code = 'tax102' -- tax102 : For cash_credit_id=7
+  AND bill.lineitem = 148
+  AND bi.tax_id = t.tax_id
+  AND t.tax_id = td.tax_id
+  AND td.tax_type_id = tp.tax_type_id(+)
+</sql>
+    <limit>0</limit>
+    <lookup />
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>128</xloc>
+      <yloc>384</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table input- Fetch Bill and Tax</name>
+    <type>TableInput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>OBIAR</connection>
+    <sql>SELECT 
+       'B' AS indicator,
+       bill.line_item_bill_id, 
+       bal.line_item_balance_id,
+       bi.balance_impact_id,
+       t.tax_id,  
+       td.tax_type_id,
+       '' AS cash_credit_id,
+       TO_CHAR(bill.bill_dt, 'YYYY-MM-DD') AS activity_dt,
+       'TRADEMORE' AS system_source,
+       TO_CHAR(TO_DATE('${END_DT}', 'YYYY-MM-DD'),'YYYYMM') AS tax_period, -- For TradeMore it has to be END_DT
+       '700260' AS market,
+       (
+        CASE WHEN t.state_province = 'AZ' THEN '490213'
+             WHEN t.state_province = 'HI' THEN '490213'
+             WHEN t.state_province = 'NM' THEN '490213'
+             ELSE '224013' 
+        END     
+       ) AS account,
+       'TM75038' AS store_id,
+       NVL(LPAD(t.customer_taid,9,0),'000000000') AS vertex_geocode,
+       NVL(tp.short_desc,'NONE') AS tp_short_desc,  -- will be used to derive tax_level
+       '' AS juris_desc,
+       (
+        CASE WHEN t.state_province = 'AZ' THEN 'GR'
+             WHEN t.state_province = 'HI' THEN 'GR'
+             WHEN t.state_province = 'NM' THEN 'GR'
+             ELSE 'SA' 
+        End     
+       ) AS tax_type,
+       '' AS tax_category,
+       CONCAT(CONCAT(t.state_province,'-'),td.imposition_type) AS  tax_desc,
+       td.taxable_amount/100 AS gross_revenue,
+       'PHONE' AS revenue_desc,
+       0.00 AS exempt_revenue,
+       td.taxable_amount/100 AS taxable_revenue,
+       td.rate AS tax_rate,
+       td.amount/100 AS tax_amount,
+       '' AS tax_auth_id
+                  
+FROM line_item_bill bill,
+     billed_line_item_balance blib,
+     line_item_balance bal,
+     balance_impact bi,
+     tax t,
+     tax_detail td,
+     tax_type tp  
+ 
+WHERE bill.line_item_bill_id = blib.line_item_bill_id
+  AND blib.line_item_balance_id = bal.line_item_balance_id
+  AND bal.line_item_balance_id = bi.line_item_balance_id
+  AND bi.activity_reason_code = 'tax100' -- tax100 : Tax for the Original Charge
+  AND bill.lineitem = 148
+  AND bi.created_dt >= TO_DATE('${START_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bi.created_dt &lt; TO_DATE('${END_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bill.last_modified_dt >= TO_DATE('${START_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS') - 10   -- Added to use indexed column and avoid full table scan
+  AND bill.last_modified_dt &lt;= sysdate + 10  -- Added to use indexed column and avoid full table scan
+  AND bi.tax_id = t.tax_id
+  AND t.tax_id = td.tax_id
+  AND td.tax_type_id = tp.tax_type_id(+)</sql>
+    <limit>0</limit>
+    <lookup />
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>128</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Text file output - TM_vzw_tax_summary_report - If empty, Write Header</name>
+    <type>TextFileOutput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <separator>|</separator>
+    <enclosure />
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>UTF-8</encoding>
+    <endedLine />
+    <fileNameInField>N</fileNameInField>
+    <fileNameField />
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${OUTPUT_DIR}/TM_vzw_tax_summary_report_${START_DT}_${END_DT}_${RUN_DT}</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format />
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>MARKET</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+        <type>BigNumber</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>GROSS_REVENUE</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>EXEMPT_REVENUE</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAXABLE_REVENUE</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+        <type>Number</type>
+        <format />
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_AMOUNT</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1456</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Text file output - TM_vzw_tax_summary_report - Main</name>
+    <type>TextFileOutput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <separator>|</separator>
+    <enclosure />
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>UTF-8</encoding>
+    <endedLine />
+    <fileNameInField>N</fileNameInField>
+    <fileNameField />
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${OUTPUT_DIR}/TM_vzw_tax_summary_report_${START_DT}_${END_DT}_${RUN_DT}</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format />
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>MARKET</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+        <type>BigNumber</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>GROSS_REVENUE_SUM</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>EXEMPT_REVENUE_SUM</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAXABLE_REVENUE_SUM</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+        <type>Number</type>
+        <format />
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_AMOUNT_SUM</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1136</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Text file output - TM_vzw_tax_summary_report_metrics</name>
+    <type>TextFileOutput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <separator>|</separator>
+    <enclosure />
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>UNIX</format>
+    <compression>None</compression>
+    <encoding />
+    <endedLine />
+    <fileNameInField>N</fileNameInField>
+    <fileNameField />
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${OUTPUT_DIR}/TM_vzw_tax_summary_report_${START_DT}_${END_DT}_${RUN_DT}_metrics</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format />
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>IDENTIFIER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TOTAL_ROW_COUNT </name>
+        <type>Integer</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TOTAL_GROSS_AMOUNT</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TOTAL_TAX_AMOUNT</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1264</xloc>
+      <yloc>656</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows - Bill id</name>
+    <type>Unique</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field />
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description />
+    <fields>
+      <field>
+        <name>INDICATOR</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>LINE_ITEM_BILL_ID</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>TAX_ID</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>192</xloc>
+      <yloc>624</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows- Master</name>
+    <type>Unique</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field />
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description />
+    <fields>
+      <field>
+        <name>SYSTEM_SOURCE</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>TAX_PERIOD</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>MARKET</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>ACCOUNT</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>STORE_ID</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>VERTEX_GEOCODE</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>JURIS_DESC</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>TAX_TYPE</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>TAX_CATEGORY</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>TAX_DESC</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>TAX_RATE</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>TAX_AUTH_ID</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>544</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step_error_handling>
+  </step_error_handling>
+  <slave-step-copy-partition-distribution>
+  </slave-step-copy-partition-distribution>
+  <slave_transformation>N</slave_transformation>
+</transformation>

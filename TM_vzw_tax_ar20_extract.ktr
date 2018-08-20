@@ -1,0 +1,3605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>TM_vzw_tax_ar20_extract</name>
+    <description />
+    <extended_description>SCRIPT NAME : TM_vzw_tax_ar20_extract.ktr
+      USAGE : TM_vzw_tax_ar20_extract.ktr -RUN_DT &lt;YYYY-MM-DD> -START_DT &lt;YYYY-MM-DD> -END_DT &lt;YYYY-MM-DD>
+DESCRIPTION : The ktr extracts data from OBIAR DB and generates interim files. 
+     OUTPUT : The ktr creates the following staging files:
+               1.${INTERIM_BASE_DIR}/TRADEMORE_TAX/TM_vzw_tax_detail_account_*.txt
+               2.${INTERIM_BASE_DIR}/TRADEMORE_TAX/TM_vzw_tax_detail_service_*.txt
+               3.${INTERIM_BASE_DIR}/TRADEMORE_TAX/TM_vzw_tax_detail_revenue_*.txt
+               4.${INTERIM_BASE_DIR}/TRADEMORE_TAX/TM_vzw_tax_detail_surcharge_*.txt</extended_description>
+    <trans_version>1.0</trans_version>
+    <trans_type>Normal</trans_type>
+    <trans_status>2</trans_status>
+    <directory>/</directory>
+    <parameters>
+      <parameter>
+        <name>END_DT</name>
+        <default_value>2018-07-01</default_value>
+        <description>End date of the report, Date format - YYYY-MM-DD</description>
+      </parameter>
+      <parameter>
+        <name>GLOBAL_ACCT_ID_WHERE_CLAUSE</name>
+        <default_value>1=1</default_value>
+        <description>WHERE clause parameter to execute the transform for selected global_acct_id's</description>
+      </parameter>
+      <parameter>
+        <name>RUN_DT</name>
+        <default_value>2018-07-01</default_value>
+        <description>Run date of the report , Date format - YYYY-MM-DD</description>
+      </parameter>
+      <parameter>
+        <name>START_DT</name>
+        <default_value>2018-06-01</default_value>
+        <description>Start date of the report, Date format - YYYY-MM-DD</description>
+      </parameter>
+    </parameters>
+    <log>
+      <trans-log-table>
+        <connection />
+        <schema />
+        <table />
+        <size_limit_lines />
+        <interval />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STATUS</id>
+          <enabled>Y</enabled>
+          <name>STATUS</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+          <subject />
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+          <subject />
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>STARTDATE</id>
+          <enabled>Y</enabled>
+          <name>STARTDATE</name>
+        </field>
+        <field>
+          <id>ENDDATE</id>
+          <enabled>Y</enabled>
+          <name>ENDDATE</name>
+        </field>
+        <field>
+          <id>LOGDATE</id>
+          <enabled>Y</enabled>
+          <name>LOGDATE</name>
+        </field>
+        <field>
+          <id>DEPDATE</id>
+          <enabled>Y</enabled>
+          <name>DEPDATE</name>
+        </field>
+        <field>
+          <id>REPLAYDATE</id>
+          <enabled>Y</enabled>
+          <name>REPLAYDATE</name>
+        </field>
+        <field>
+          <id>LOG_FIELD</id>
+          <enabled>Y</enabled>
+          <name>LOG_FIELD</name>
+        </field>
+        <field>
+          <id>EXECUTING_SERVER</id>
+          <enabled>N</enabled>
+          <name>EXECUTING_SERVER</name>
+        </field>
+        <field>
+          <id>EXECUTING_USER</id>
+          <enabled>N</enabled>
+          <name>EXECUTING_USER</name>
+        </field>
+        <field>
+          <id>CLIENT</id>
+          <enabled>N</enabled>
+          <name>CLIENT</name>
+        </field>
+      </trans-log-table>
+      <perf-log-table>
+        <connection />
+        <schema />
+        <table />
+        <interval />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>SEQ_NR</id>
+          <enabled>Y</enabled>
+          <name>SEQ_NR</name>
+        </field>
+        <field>
+          <id>LOGDATE</id>
+          <enabled>Y</enabled>
+          <name>LOGDATE</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STEPNAME</id>
+          <enabled>Y</enabled>
+          <name>STEPNAME</name>
+        </field>
+        <field>
+          <id>STEP_COPY</id>
+          <enabled>Y</enabled>
+          <name>STEP_COPY</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>INPUT_BUFFER_ROWS</id>
+          <enabled>Y</enabled>
+          <name>INPUT_BUFFER_ROWS</name>
+        </field>
+        <field>
+          <id>OUTPUT_BUFFER_ROWS</id>
+          <enabled>Y</enabled>
+          <name>OUTPUT_BUFFER_ROWS</name>
+        </field>
+      </perf-log-table>
+      <channel-log-table>
+        <connection />
+        <schema />
+        <table />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>LOGGING_OBJECT_TYPE</id>
+          <enabled>Y</enabled>
+          <name>LOGGING_OBJECT_TYPE</name>
+        </field>
+        <field>
+          <id>OBJECT_NAME</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_NAME</name>
+        </field>
+        <field>
+          <id>OBJECT_COPY</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_COPY</name>
+        </field>
+        <field>
+          <id>REPOSITORY_DIRECTORY</id>
+          <enabled>Y</enabled>
+          <name>REPOSITORY_DIRECTORY</name>
+        </field>
+        <field>
+          <id>FILENAME</id>
+          <enabled>Y</enabled>
+          <name>FILENAME</name>
+        </field>
+        <field>
+          <id>OBJECT_ID</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_ID</name>
+        </field>
+        <field>
+          <id>OBJECT_REVISION</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_REVISION</name>
+        </field>
+        <field>
+          <id>PARENT_CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>PARENT_CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>ROOT_CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>ROOT_CHANNEL_ID</name>
+        </field>
+      </channel-log-table>
+      <step-log-table>
+        <connection />
+        <schema />
+        <table />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STEPNAME</id>
+          <enabled>Y</enabled>
+          <name>STEPNAME</name>
+        </field>
+        <field>
+          <id>STEP_COPY</id>
+          <enabled>Y</enabled>
+          <name>STEP_COPY</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>LOG_FIELD</id>
+          <enabled>N</enabled>
+          <name>LOG_FIELD</name>
+        </field>
+      </step-log-table>
+      <metrics-log-table>
+        <connection />
+        <schema />
+        <table />
+        <timeout_days />
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>METRICS_DATE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_DATE</name>
+        </field>
+        <field>
+          <id>METRICS_CODE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_CODE</name>
+        </field>
+        <field>
+          <id>METRICS_DESCRIPTION</id>
+          <enabled>Y</enabled>
+          <name>METRICS_DESCRIPTION</name>
+        </field>
+        <field>
+          <id>METRICS_SUBJECT</id>
+          <enabled>Y</enabled>
+          <name>METRICS_SUBJECT</name>
+        </field>
+        <field>
+          <id>METRICS_TYPE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_TYPE</name>
+        </field>
+        <field>
+          <id>METRICS_VALUE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_VALUE</name>
+        </field>
+      </metrics-log-table>
+    </log>
+    <maxdate>
+      <connection />
+      <table />
+      <field />
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file />
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+    <created_user>-</created_user>
+    <created_date>2018/04/27 13:32:11.583</created_date>
+    <modified_user>-</modified_user>
+    <modified_date>2018/04/27 13:32:11.583</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
+    <is_key_private>N</is_key_private>
+  </info>
+  <notepads>
+    <notepad>
+      <note>   SCRIPT NAME : TM_vzw_tax_ar20_extract.ktr
+         USAGE : TM_vzw_tax_ar20_extract.ktr -RUN_DT &lt;YYYY-MM-DD> -START_DT &lt;YYYY-MM-DD> -END_DT &lt;YYYY-MM-DD>
+   DESCRIPTION : The ktr extracts data from OBIAR DB and generates interim files. 
+        OUTPUT : The ktr creates the following staging files:
+                 1.${INTERIM_DIR}/TM_vzw_tax_detail_account_*.txt
+                 2.${INTERIM_DIR}/TM_vzw_tax_detail_service_*.txt
+                 3.${INTERIM_DIR}/TM_vzw_tax_detail_revenue_*.txt
+                 4.${INTERIM_DIR}/TM_vzw_tax_detail_surcharge_*.txt</note>
+      <xloc>0</xloc>
+      <yloc>16</yloc>
+      <width>795</width>
+      <heigth>122</heigth>
+      <fontname>Courier</fontname>
+      <fontsize>12</fontsize>
+      <fontbold>Y</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>4</fontcolorred>
+      <fontcolorgreen>50</fontcolorgreen>
+      <fontcolorblue>255</fontcolorblue>
+      <backgroundcolorred>254</backgroundcolorred>
+      <backgroundcolorgreen>255</backgroundcolorgreen>
+      <backgroundcolorblue>255</backgroundcolorblue>
+      <bordercolorred>254</bordercolorred>
+      <bordercolorgreen>255</bordercolorgreen>
+      <bordercolorblue>255</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+  </notepads>
+  <connection>
+    <name>OBIAR</name>
+    <server />
+    <type>ORACLE</type>
+    <access>Native</access>
+    <database>${OBIAR_DATABASE_NAME}</database>
+    <port>-1</port>
+    <username>${OBIAR_DBUSER1}</username>
+    <password>${OBIAR_DBPASSWD1}</password>
+    <servername />
+    <data_tablespace />
+    <index_tablespace />
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>-1</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STRICT_NUMBER_38_INTERPRETATION</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
+  <order>
+    <hop>
+      <from>Sort rows - Account</from>
+      <to>Unique rows - Account - Get 1 row per user</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows - Service</from>
+      <to>Unique rows - Service - Get 1 row per user, bill</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows - Revenue</from>
+      <to>Unique rows - Get 1 row per billing activity</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows - Tax-Surcharge</from>
+      <to>Modified Java Script Value - Tax-Surcharge</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows - Account - Get 1 row per user</from>
+      <to>Text file output - Account</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows - Service - Get 1 row per user, bill</from>
+      <to>Text file output - Service</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows - Get 1 row per billing activity</from>
+      <to>Stream lookup - Revenue - LE</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - cat_tax_prod_config</from>
+      <to>Stream lookup - Revenue - LE</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Modified Java Script Value - Tax-Surcharge</from>
+      <to>Stream lookup - Tax-Surcharge - LE</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - cat_tax_prod_config</from>
+      <to>Stream lookup - Tax-Surcharge - LE</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Stream lookup - Revenue - LE</from>
+      <to>Stream lookup - Revenue - Revenue Desc</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Stream lookup - Tax-Surcharge - LE</from>
+      <to>Stream lookup - Tax-Surcharge - Revenue Desc</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - cat_vendor_prod</from>
+      <to>Stream lookup - Revenue - Revenue Desc</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - cat_vendor_prod</from>
+      <to>Stream lookup - Tax-Surcharge - Revenue Desc</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Stream lookup - Revenue - Revenue Desc</from>
+      <to>Text file output - Revenue</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Stream lookup - Tax-Surcharge - Revenue Desc</from>
+      <to>Text file output- Tax-Surcharge</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values- Account</from>
+      <to>Sort rows - Account</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values- Service</from>
+      <to>Sort rows - Service</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values- Revenue</from>
+      <to>Sort rows - Revenue</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values- Tax-Surcharge</from>
+      <to>Sort rows - Tax-Surcharge</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - Bills</from>
+      <to>Select values- Account</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - Bills</from>
+      <to>Select values- Revenue</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - Bills</from>
+      <to>Select values- Tax-Surcharge</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - Bills</from>
+      <to>Select values- Service</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - Credits</from>
+      <to>Select values- Account</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - Credits</from>
+      <to>Select values- Service</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - Credits</from>
+      <to>Select values- Revenue</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input - Credits</from>
+      <to>Select values- Tax-Surcharge</to>
+      <enabled>Y</enabled>
+    </hop>
+  </order>
+  <step>
+    <name>Modified Java Script Value - Tax-Surcharge</name>
+    <type>ScriptValueMod</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Compute TAX_LEVEL per VZW mapping</jsScript_name>
+        <jsScript_script>//Compute TAX_LEVEL per VZW mapping
+
+var tmp_tax_level;
+
+if ((TAX_LEVEL == 'STATE') || (TAX_LEVEL == 'addl state tax'))  {
+  tmp_tax_level = '01'
+}
+else if ((TAX_LEVEL == 'COUNTY') || (TAX_LEVEL == 'addl county tax')) {
+   tmp_tax_level = '02'
+}
+else if ((TAX_LEVEL == 'CITY') || (TAX_LEVEL == 'addl city tax')) {
+   tmp_tax_level = '03'
+}
+else if ((TAX_LEVEL == 'DISTRICT') || (TAX_LEVEL == 'addl district tax')) {
+   tmp_tax_level = '04'
+}
+else if (TAX_LEVEL == 'PARISH') {
+   tmp_tax_level = '04'
+}
+else {tmp_tax_level = 'NA'}
+
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>tmp_tax_level</name>
+        <rename>TAX_LEVEL</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>544</xloc>
+      <yloc>720</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values- Account</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>RECORD_TYPE_CODE_A</name>
+        <rename>RECORD_TYPE_CODE</rename>
+      </field>
+      <field>
+        <name>INVOICE_DATE_A</name>
+        <rename>INVOICE_DATE</rename>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER_A</name>
+        <rename>BILLING_ACCOUNT_NUMBER</rename>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NAME_A</name>
+        <rename>BILLING_ACCOUNT_NAME</rename>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_STREET_A</name>
+        <rename>BILLING_ADDRESS_STREET</rename>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_CITY_A</name>
+        <rename>BILLING_ADDRESS_CITY</rename>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_STATE_A</name>
+        <rename>BILLING_ADDRESS_STATE</rename>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_ZIP_A</name>
+        <rename>BILLING_ADDRESS_ZIP</rename>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_APT_NO_A</name>
+        <rename>BILLING_ADDRESS_APT_NO</rename>
+      </field>
+      <field>
+        <name>TAX_EXEMPT_INDICATOR_A</name>
+        <rename>TAX_EXEMPT_INDICATOR</rename>
+      </field>
+      <field>
+        <name>TAX_EXEMPT_CODE_A</name>
+        <rename>TAX_EXEMPT_CODE</rename>
+      </field>
+      <field>
+        <name>TAX_EXEMPT_LEVEL_A</name>
+        <rename>TAX_EXEMPT_LEVEL</rename>
+      </field>
+      <field>
+        <name>CUSTOMER_FEIN_A</name>
+        <rename>CUSTOMER_FEIN</rename>
+      </field>
+      <field>
+        <name>ACNA_A</name>
+        <rename>ACNA</rename>
+      </field>
+      <field>
+        <name>GL_PERIOD_A</name>
+        <rename>GL_PERIOD</rename>
+      </field>
+      <field>
+        <name>FEED_CODE_A</name>
+        <rename>FEED_CODE</rename>
+      </field>
+      <field>
+        <name>GRADE_OF_SERVICE_A</name>
+        <rename>GRADE_OF_SERVICE</rename>
+      </field>
+      <field>
+        <name>SUMMARY_ACCOUNT_NUMBER_A</name>
+        <rename>SUMMARY_ACCOUNT_NUMBER</rename>
+      </field>
+      <field>
+        <name>FILLER_ACCOUNT_A</name>
+        <rename>FILLER_ACCOUNT</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>256</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows - Account</name>
+    <type>SortRows</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory />
+    <compress>N</compress>
+    <compress_variable />
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>INVOICE_DATE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>432</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows - Revenue</name>
+    <type>SortRows</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory />
+    <compress>N</compress>
+    <compress_variable />
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>INDICATOR</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>416</xloc>
+      <yloc>560</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows - Service</name>
+    <type>SortRows</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory />
+    <compress>N</compress>
+    <compress_variable />
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>INVOICE_DATE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>448</xloc>
+      <yloc>368</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows - Tax-Surcharge</name>
+    <type>SortRows</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory />
+    <compress>N</compress>
+    <compress_variable />
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>TAX_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>432</xloc>
+      <yloc>784</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stream lookup - Revenue - LE</name>
+    <type>StreamLookup</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <from>Table input - cat_tax_prod_config</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>PRODUCT_ID</name>
+        <field>PRODUCT_ID</field>
+      </key>
+      <key>
+        <name>COUNTRY</name>
+        <field>COUNTRY</field>
+      </key>
+      <value>
+        <name>TAX_PROD_CLASS</name>
+        <rename>REVENUE_CODE</rename>
+        <default />
+        <type>String</type>
+      </value>
+    </lookup>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>528</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stream lookup - Revenue - Revenue Desc</name>
+    <type>StreamLookup</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <from>Table input - cat_vendor_prod</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>PRODUCT_ID</name>
+        <field>PRODUCT_ID</field>
+      </key>
+      <value>
+        <name>PRODUCT_TEXT</name>
+        <rename>REVENUE_DESC</rename>
+        <default />
+        <type>String</type>
+      </value>
+    </lookup>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>496</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stream lookup - Tax-Surcharge - LE</name>
+    <type>StreamLookup</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <from>Table input - cat_tax_prod_config</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>N</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>PRODUCT_ID</name>
+        <field>PRODUCT_ID</field>
+      </key>
+      <key>
+        <name>COUNTRY</name>
+        <field>COUNTRY</field>
+      </key>
+      <value>
+        <name>TAX_PROD_CLASS</name>
+        <rename>REVENUE_CODE</rename>
+        <default />
+        <type>None</type>
+      </value>
+    </lookup>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>736</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stream lookup - Tax-Surcharge - Revenue Desc</name>
+    <type>StreamLookup</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <from>Table input - cat_vendor_prod</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>PRODUCT_ID</name>
+        <field>PRODUCT_ID</field>
+      </key>
+      <value>
+        <name>PRODUCT_TEXT</name>
+        <rename>REVENUE_DESC</rename>
+        <default />
+        <type>String</type>
+      </value>
+    </lookup>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>768</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table input - Credits</name>
+    <type>TableInput</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>OBIAR</connection>
+    <sql>SELECT
+      -- Account Block
+      'Account' AS record_type_code_a,
+      TO_CHAR(cc.issue_dt,'MMDDYYYY') AS invoice_date_a,
+      TRIM(a.global_acct_id) AS billing_account_number_a,
+      (TRIM(ap.first_name) || ' ' || TRIM(ap.last_name)) AS billing_account_name_a,
+      (TRIM(ap.street)  || ' ' || TRIM(ap.street3)) AS billing_address_street_a,
+      COALESCE(TRIM(ap.city),' ') AS billing_address_city_a,
+      COALESCE(TRIM(ap.state_province),' ') AS billing_address_state_a,
+      COALESCE(TRIM(ap.zip_postal_code),' ') AS billing_address_zip_a,
+      COALESCE(TRIM(ap.apt_suite),' ') AS billing_address_apt_no_a,
+      'N' as tax_exempt_indicator_a,
+      ' ' as tax_exempt_code_a,
+      ' ' as tax_exempt_level_a,
+      ' ' as customer_fein_a,
+      ' ' as acna_a,
+      TO_CHAR(TO_DATE('${END_DT}', 'YYYY-MM-DD'),'YYYYMM') AS gl_period_a,
+      'BATO' AS feed_code_a,
+      ' ' AS grade_of_service_a,
+      ' ' AS summary_account_number_a,
+      ' ' AS filler_account_a,
+      
+      -- Service block
+      'Service' AS record_type_code_s,
+      TO_CHAR(cc.issue_dt,'MMDDYYYY') AS invoice_date_s,
+      TRIM(a.global_acct_id) AS billing_account_number_s,
+      bi.order_id AS service_number_s,
+      (TRIM(ap.first_name) || ' ' || TRIM(ap.last_name)) AS service_name_s,
+      COALESCE(TRIM(t.street),' ') AS service_address_street_s,
+      COALESCE(TRIM(t.city),' ') AS service_address_city_s,
+      COALESCE(TRIM(t.state_province),' ') AS service_address_state_s,
+      COALESCE(TRIM(t.zip_postal_code),' ') AS service_address_zip_s,
+      ' ' AS service_address_apt_no_s, 
+      (
+      CASE WHEN t.customer_taid=-1 THEN '000000000'
+            ELSE LPAD(NVL(TO_CHAR(t.customer_taid),'000000000'),9,'0')
+            END
+      ) AS situs_code_s,
+      '01' AS tax_engine_code_s, 
+      'BATO' AS feed_code_s,
+      'R' AS type_of_account_s,
+      ' ' AS filler1_s,
+      ' ' AS filler2_s,
+      ' ' AS filler3_s,
+
+      -- Revenue Block
+      'C101' AS indicator_r,
+      t.tax_id AS tax_id_r,
+      TRIM(TO_CHAR(bi.product_id)) AS product_id_r,
+      t.country AS country_r,
+      'Revenue' AS record_type_code_r,
+      TO_CHAR(cc.issue_dt,'MMDDYYYY') AS invoice_date_r,
+      TRIM(a.global_acct_id) AS billing_account_number_r,
+      bi.order_id AS service_number_r,
+      '700260' AS legal_entity_code_ss_r,
+      'R' AS account_type_code_r,
+      '0' AS revenue_jurisdiction_code_r,
+      'PHONE' AS revenue_description_r,
+      (td.taxable_amount/100) AS revenue_amount_r,       
+      ' ' AS bundled_element_code_r,
+      ' ' AS applicability_indicator_r,       
+      'BATO' AS feed_code_r,       
+      (
+      CASE WHEN bi.gross_amount != 0 THEN (td.taxable_amount/100)
+            ELSE 0.00
+            END
+      ) AS taxable_amount_r,
+      ' ' AS source_system_tax_type_code_r,
+      '01' AS tax_engine_code_r,
+      --revenue_code
+      ' ' AS revenue_sub_code_r,
+      ' ' AS tax_engine_applicability_ind_r,
+      --revenue_desc
+      ' ' AS revenue_sub_desc_r,
+      'Adjustment' AS bill_activity_type_code_r,
+      ' ' AS bill_activity_type_desc_r,
+
+      --Tax-Surcharge Block
+      t.tax_id AS tax_id_t,
+      TRIM(TO_CHAR(bi.product_id)) AS product_id_t, 
+      t.country AS country_t,
+      'Tax-Surcharge' AS record_type_code_t,
+      TO_CHAR(cc.issue_dt,'MMDDYYYY') AS invoice_date_t,
+      TRIM(a.global_acct_id) AS billing_account_number_t,
+      bi.order_id AS service_number_t,
+      '700260' AS legal_entity_code_ss_t,
+      (
+        CASE WHEN t.state_province = 'AZ' THEN '490213'
+             WHEN t.state_province = 'HI' THEN '490213'
+             WHEN t.state_province = 'NM' THEN '490213'
+             ELSE '224013' 
+        END     
+      ) AS  gl_account_code_t,
+      SUBSTR(TRIM(td.imposition_type),1,50) AS tax_type_code_tax_engine_t,
+      ' ' AS tax_type_code_t,
+      tp.short_desc AS tax_level_t, -- Will be used to evaluate tax_level
+      (
+       CASE WHEN t.customer_taid=-1 THEN '000000000'
+            ELSE LPAD(NVL(TO_CHAR(t.customer_taid),'000000000'),9,'0')
+            END
+      ) AS situs_code_t,
+      'PHONE' AS tax_base_description_t,
+      (td.amount/100) AS tax_surcharge_amount_t,
+      td.rate AS rate_t,
+      'P' AS rate_method_t,
+      'BATO' AS feed_code_t,
+      (
+       CASE WHEN bi.gross_amount != 0 THEN (td.taxable_amount/100)
+            ELSE 0.00
+            END
+       ) AS base_amount_applicable_t,
+      '01' AS tax_engine_code_t,
+      SUBSTR(TRIM(td.imposition_type),1,50) AS b_system_tax_type_desc_t,
+      --revenue_code
+      ' ' AS revenue_sub_code_t,
+      (td.taxable_amount/100) AS base_amount_gross_t,
+      0.00 AS base_amount_exempt_t,
+      (
+       CASE WHEN bi.gross_amount = 0 THEN (td.taxable_amount/100)
+            ELSE 0.00
+            END
+      ) AS base_amount_non_app_t,
+      0.00 AS tax_on_tax_base_amount_t,
+      --revenue_desc
+      ' ' AS revenue_sub_desc_t,
+      'Adjustment' AS bill_activity_type_code_t,
+      ' ' AS bill_activity_type_desc_t
+
+FROM cash_credit cc,
+     billed_line_item_balance blib,
+     line_item_balance bal,
+     balance_impact bi,
+     tax t,
+     tax_detail td,
+     tax_type tp,
+     account a,
+     acct_pm ap
+ 
+WHERE cc.line_item_bill_id = blib.line_item_bill_id
+  AND blib.line_item_balance_id = bal.line_item_balance_id
+  AND bal.line_item_balance_id = bi.line_item_balance_id
+  AND bi.activity_reason_code = 'tax101' -- tax101 : all cash_credits except cash_credit_id=7
+  AND cc.lineitem = 148
+  AND bi.created_dt >= TO_DATE('${START_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bi.created_dt &lt; TO_DATE('${END_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bi.tax_id = t.tax_id
+  AND t.tax_id = td.tax_id
+  AND td.tax_type_id = tp.tax_type_id(+)
+  AND cc.acct_id = a.acct_id
+  AND a.acct_id = ap.acct_id 
+  AND cc.payment_method_id = ap.payment_method_id
+  AND ${GLOBAL_ACCT_ID_WHERE_CLAUSE}
+
+UNION ALL 
+
+SELECT
+
+      -- Account block
+      'Account' AS record_type_code_a,
+      TO_CHAR(cc.issue_dt,'MMDDYYYY') AS invoice_date_a,
+      TRIM(a.global_acct_id) AS billing_account_number_a,
+      (TRIM(ap.first_name) || ' ' || TRIM(ap.last_name)) AS billing_account_name_a,
+      (TRIM(ap.street)  || ' ' || TRIM(ap.street3)) AS billing_address_street_a,
+      COALESCE(TRIM(ap.city),' ') AS billing_address_city_a,
+      COALESCE(TRIM(ap.state_province),' ') AS billing_address_state_a,
+      COALESCE(TRIM(ap.zip_postal_code),' ') AS billing_address_zip_a,
+      COALESCE(TRIM(ap.apt_suite),' ') AS billing_address_apt_no_a,
+      'N' as tax_exempt_indicator_a,
+      ' ' as tax_exempt_code_a,
+      ' ' as tax_exempt_level_a,
+      ' ' as customer_fein_a,
+      ' ' as acna_a,
+      TO_CHAR(TO_DATE('${END_DT}', 'YYYY-MM-DD'),'YYYYMM') AS gl_period_a,
+      'BATO' AS feed_code_a,
+      ' ' AS grade_of_service_a,
+      ' ' AS summary_account_number_a,
+      ' ' AS filler_account_a,
+      
+      -- Service block
+      'Service' AS record_type_code_s,
+      TO_CHAR(cc.issue_dt,'MMDDYYYY') AS invoice_date_s,
+      TRIM(a.global_acct_id) AS billing_account_number_s,
+      bi.order_id AS service_number_s,
+      (TRIM(ap.first_name) || ' ' || TRIM(ap.last_name)) AS service_name_s,
+      COALESCE(TRIM(t.street),' ') AS service_address_street_s,
+      COALESCE(TRIM(t.city),' ') AS service_address_city_s,
+      COALESCE(TRIM(t.state_province),' ') AS service_address_state_s,
+      COALESCE(TRIM(t.zip_postal_code),' ') AS service_address_zip_s,
+      ' ' AS service_address_apt_no_s, 
+      (
+      CASE WHEN t.customer_taid=-1 THEN '000000000'
+           ELSE LPAD(NVL(TO_CHAR(t.customer_taid),'000000000'),9,'0')
+           END
+      ) AS situs_code_s,
+      '01' AS tax_engine_code_s, 
+      'BATO' AS feed_code_s,
+      'R' AS type_of_account_s,
+      ' ' AS filler1_s,
+      ' ' AS filler2_s,
+      ' ' AS filler3_s,
+      
+      -- Revenue Block
+      'C102' AS indicator_r,
+      t.tax_id AS tax_id_r,
+      TRIM(TO_CHAR(bi.product_id)) AS product_id_r,
+      t.country AS country_r,
+      'Revenue' AS record_type_code_r,
+      TO_CHAR(cc.issue_dt,'MMDDYYYY') AS invoice_date_r,
+      TRIM(a.global_acct_id) AS billing_account_number_r,
+      bi.order_id AS service_number_r,
+      '700260' AS legal_entity_code_ss_r,
+      'R' AS account_type_code_r,
+      '0' AS revenue_jurisdiction_code_r,
+      'PHONE' AS revenue_description_r,
+      (td.taxable_amount/100) AS revenue_amount_r,       
+      ' ' AS bundled_element_code_r,
+      ' ' AS applicability_indicator_r,       
+      'BATO' AS feed_code_r,       
+      (
+      CASE WHEN bi.gross_amount != 0 THEN (td.taxable_amount/100)
+            ELSE 0.00
+            END
+      ) AS taxable_amount_r,
+      ' ' AS source_system_tax_type_code_r,
+      '01' AS tax_engine_code_r,
+      --revenue_code
+      ' ' AS revenue_sub_code_r,
+      ' ' AS tax_engine_applicability_ind_r,
+      --revenue_desc
+      ' ' AS revenue_sub_desc_r,
+      'Adjustment' AS bill_activity_type_code_r,
+      ' ' AS bill_activity_type_desc_r,
+
+      --Tax-Surcharge Block
+      t.tax_id AS tax_id_t,
+      TRIM(TO_CHAR(bi.product_id)) AS product_id_t, 
+      t.country AS country_t,
+      'Tax-Surcharge' AS record_type_code_t,
+      TO_CHAR(cc.issue_dt,'MMDDYYYY') AS invoice_date_t,
+      TRIM(a.global_acct_id) AS billing_account_number_t,
+      bi.order_id AS service_number,
+      '700260' AS legal_entity_code_ss,
+      (
+        CASE WHEN t.state_province = 'AZ' THEN '490213'
+             WHEN t.state_province = 'HI' THEN '490213'
+             WHEN t.state_province = 'NM' THEN '490213'
+             ELSE '224013' 
+        END     
+      ) AS  gl_account_code_t,
+      SUBSTR(TRIM(td.imposition_type),1,50) AS tax_type_code_tax_engine_t,
+      ' ' AS tax_type_code_t,
+      tp.short_desc AS tax_level_t, -- Will be used to evaluate tax_level
+      (
+       CASE WHEN t.customer_taid=-1 THEN '000000000'
+            ELSE LPAD(NVL(TO_CHAR(t.customer_taid),'000000000'),9,'0')
+            END
+      ) AS situs_code_t,
+      'PHONE' AS tax_base_description_t,
+      (td.amount/100) AS tax_surcharge_amount_t,
+      td.rate AS rate_t,
+      'P' AS rate_method_t,
+      'BATO' AS feed_code_t,
+      (
+       CASE WHEN bi.gross_amount != 0 THEN (td.taxable_amount/100)
+            ELSE 0.00
+            END
+       ) AS base_amount_applicable_t,
+      '01' AS tax_engine_code_t,
+      SUBSTR(TRIM(td.imposition_type),1,50) AS b_system_tax_type_desc_t,
+      --revenue_code
+      ' ' AS revenue_sub_code_t,
+      (td.taxable_amount/100) AS base_amount_gross_t,
+      0.00 AS base_amount_exempt_t,
+      (
+       CASE WHEN bi.gross_amount = 0 THEN (td.taxable_amount/100)
+            ELSE 0.00
+            END
+      ) AS base_amount_non_app_t,
+      0.00 AS tax_on_tax_base_amount_t,
+      --revenue_desc
+      ' ' AS revenue_sub_desc_t,
+      'Adjustment' AS bill_activity_type_code_t,
+      ' ' AS bill_activity_type_desc_t
+
+FROM cash_credit cc,
+     billed_line_item_balance blib,
+     line_item_balance bal,
+     balance_impact bi,
+     tax t,
+     tax_detail td,
+     tax_type tp,
+     account a,
+     acct_pm ap
+ 
+WHERE cc.line_item_bill_id = blib.line_item_bill_id
+  AND blib.line_item_balance_id = bal.line_item_balance_id
+  AND bal.line_item_balance_id = bi.line_item_balance_id
+  AND bi.activity_reason_code = 'tax102' -- tax101, tax102 : all cash_credits except cash_credit_id=7 , for cash_credit_id=7
+  AND cc.lineitem = 148
+  AND bi.created_dt >= TO_DATE('${START_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bi.created_dt &lt; TO_DATE('${END_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bi.tax_id = t.tax_id
+  AND t.tax_id = td.tax_id
+  AND td.tax_type_id = tp.tax_type_id(+)
+  AND cc.acct_id = a.acct_id
+  AND a.acct_id = ap.acct_id 
+  AND cc.payment_method_id = ap.payment_method_id
+  AND ${GLOBAL_ACCT_ID_WHERE_CLAUSE}</sql>
+    <limit>0</limit>
+    <lookup />
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>48</xloc>
+      <yloc>528</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table input - cat_tax_prod_config</name>
+    <type>TableInput</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>OBIAR</connection>
+    <sql>SELECT TRIM(TO_CHAR(product_id)) AS product_id, 
+       country_code AS country, 
+       TRIM(TO_CHAR(division)) AS division,
+       TRIM(tax_prod_class) AS tax_prod_class
+FROM cat_tax_prod_config</sql>
+    <limit>0</limit>
+    <lookup />
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table input - cat_vendor_prod</name>
+    <type>TableInput</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>OBIAR</connection>
+    <sql>SELECT TRIM(TO_CHAR(product_id)) AS product_id, 
+       TRIM(TO_CHAR(product_class_id)) AS product_class_id,
+       TRIM(product_text) AS product_text
+FROM cat_vendor_prod</sql>
+    <limit>0</limit>
+    <lookup />
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Text file output - Account</name>
+    <type>TextFileOutput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <separator>|</separator>
+    <enclosure />
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>UNIX</format>
+    <compression>None</compression>
+    <encoding />
+    <endedLine />
+    <fileNameInField>N</fileNameInField>
+    <fileNameField />
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${INTERIM_DIR}/TM_vzw_tax_detail_account_${START_DT}_${END_DT}_${RUN_DT}</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format />
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>RECORD_TYPE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>INVOICE_DATE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NAME</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_STREET</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_CITY</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_STATE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_ZIP</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ADDRESS_APT_NO</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_EXEMPT_INDICATOR</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_EXEMPT_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_EXEMPT_LEVEL</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CUSTOMER_FEIN</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACNA</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>GL_PERIOD</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FEED_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>GRADE_OF_SERVICE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SUMMARY_ACCOUNT_NUMBER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FILLER_ACCOUNT</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>912</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Text file output - Revenue</name>
+    <type>TextFileOutput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <separator>|</separator>
+    <enclosure />
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>UNIX</format>
+    <compression>None</compression>
+    <encoding />
+    <endedLine />
+    <fileNameInField>N</fileNameInField>
+    <fileNameField />
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${INTERIM_DIR}/TM_vzw_tax_detail_revenue_${START_DT}_${END_DT}_${RUN_DT}</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format />
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>TAX_ID</name>
+        <type>Integer</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>RECORD_TYPE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>INVOICE_DATE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER</name>
+        <type>Integer</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>LEGAL_ENTITY_CODE_SS</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCOUNT_TYPE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_JURISDICTION_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_DESCRIPTION</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_AMOUNT</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BUNDLED_ELEMENT_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>APPLICABILITY_INDICATOR</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FEED_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAXABLE_AMOUNT</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SOURCE_SYSTEM_TAX_TYPE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_ENGINE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_SUB_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_ENGINE_APPLICABILITY_IND</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_SUB_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILL_ACTIVITY_TYPE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILL_ACTIVITY_TYPE_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1168</xloc>
+      <yloc>560</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Text file output - Service</name>
+    <type>TextFileOutput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <separator>|</separator>
+    <enclosure />
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>UNIX</format>
+    <compression>None</compression>
+    <encoding />
+    <endedLine />
+    <fileNameInField>N</fileNameInField>
+    <fileNameField />
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${INTERIM_DIR}/TM_vzw_tax_detail_service_${START_DT}_${END_DT}_${RUN_DT}</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format />
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>RECORD_TYPE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>INVOICE_DATE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER</name>
+        <type>Integer</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SERVICE_NAME</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_STREET</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_CITY</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_STATE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_ZIP</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_APT_NO</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SITUS_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_ENGINE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FEED_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TYPE_OF_ACCOUNT</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FILLER1</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FILLER2</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FILLER3</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>912</xloc>
+      <yloc>368</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Text file output- Tax-Surcharge</name>
+    <type>TextFileOutput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <separator>|</separator>
+    <enclosure />
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>UNIX</format>
+    <compression>None</compression>
+    <encoding />
+    <endedLine />
+    <fileNameInField>N</fileNameInField>
+    <fileNameField />
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${INTERIM_DIR}/TM_vzw_tax_detail_surcharge_${START_DT}_${END_DT}_${RUN_DT}</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format />
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>TAX_ID</name>
+        <type>Integer</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>RECORD_TYPE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>INVOICE_DATE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER</name>
+        <type>Integer</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>LEGAL_ENTITY_CODE_SS</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>GL_ACCOUNT_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_TYPE_CODE_TAX_ENGINE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_TYPE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_LEVEL</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SITUS_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_BASE_DESCRIPTION</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_SURCHARGE_AMOUNT</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>RATE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>RATE_METHOD</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FEED_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BASE_AMOUNT_APPLICABLE</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_ENGINE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>B_SYSTEM_TAX_TYPE_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_SUB_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BASE_AMOUNT_GROSS</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BASE_AMOUNT_EXEMPT</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BASE_AMOUNT_NON_APP</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>TAX_ON_TAX_BASE_AMOUNT</name>
+        <type>BigNumber</type>
+        <format>0.00</format>
+        <currency />
+        <decimal>.</decimal>
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>REVENUE_SUB_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILL_ACTIVITY_TYPE_CODE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BILL_ACTIVITY_TYPE_DESC</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif />
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1168</xloc>
+      <yloc>688</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows - Account - Get 1 row per user</name>
+    <type>Unique</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field />
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description />
+    <fields>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>608</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows - Get 1 row per billing activity</name>
+    <type>Unique</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field />
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description />
+    <fields>
+      <field>
+        <name>INDICATOR</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>TAX_ID</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>544</xloc>
+      <yloc>496</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows - Service - Get 1 row per user, bill</name>
+    <type>Unique</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field />
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description />
+    <fields>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>368</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values- Service</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>RECORD_TYPE_CODE_S</name>
+        <rename>RECORD_TYPE_CODE</rename>
+      </field>
+      <field>
+        <name>INVOICE_DATE_S</name>
+        <rename>INVOICE_DATE</rename>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER_S</name>
+        <rename>BILLING_ACCOUNT_NUMBER</rename>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER_S</name>
+        <rename>SERVICE_NUMBER</rename>
+      </field>
+      <field>
+        <name>SERVICE_NAME_S</name>
+        <rename>SERVICE_NAME</rename>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_STREET_S</name>
+        <rename>SERVICE_ADDRESS_STREET</rename>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_CITY_S</name>
+        <rename>SERVICE_ADDRESS_CITY</rename>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_STATE_S</name>
+        <rename>SERVICE_ADDRESS_STATE</rename>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_ZIP_S</name>
+        <rename>SERVICE_ADDRESS_ZIP</rename>
+      </field>
+      <field>
+        <name>SERVICE_ADDRESS_APT_NO_S</name>
+        <rename>SERVICE_ADDRESS_APT_NO</rename>
+      </field>
+      <field>
+        <name>SITUS_CODE_S</name>
+        <rename>SITUS_CODE</rename>
+      </field>
+      <field>
+        <name>TAX_ENGINE_CODE_S</name>
+        <rename>TAX_ENGINE_CODE</rename>
+      </field>
+      <field>
+        <name>FEED_CODE_S</name>
+        <rename>FEED_CODE</rename>
+      </field>
+      <field>
+        <name>TYPE_OF_ACCOUNT_S</name>
+        <rename>TYPE_OF_ACCOUNT</rename>
+      </field>
+      <field>
+        <name>FILLER1_S</name>
+        <rename>FILLER1</rename>
+      </field>
+      <field>
+        <name>FILLER2_S</name>
+        <rename>FILLER2</rename>
+      </field>
+      <field>
+        <name>FILLER3_S</name>
+        <rename>FILLER3</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>368</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values- Revenue</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>INDICATOR_R</name>
+        <rename>INDICATOR</rename>
+      </field>
+      <field>
+        <name>TAX_ID_R</name>
+        <rename>TAX_ID</rename>
+      </field>
+      <field>
+        <name>PRODUCT_ID_R</name>
+        <rename>PRODUCT_ID</rename>
+      </field>
+      <field>
+        <name>COUNTRY_R</name>
+        <rename>COUNTRY</rename>
+      </field>
+      <field>
+        <name>RECORD_TYPE_CODE_R</name>
+        <rename>RECORD_TYPE_CODE</rename>
+      </field>
+      <field>
+        <name>INVOICE_DATE_R</name>
+        <rename>INVOICE_DATE</rename>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER_R</name>
+        <rename>BILLING_ACCOUNT_NUMBER</rename>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER_R</name>
+        <rename>SERVICE_NUMBER</rename>
+      </field>
+      <field>
+        <name>LEGAL_ENTITY_CODE_SS_R</name>
+        <rename>LEGAL_ENTITY_CODE_SS</rename>
+      </field>
+      <field>
+        <name>ACCOUNT_TYPE_CODE_R</name>
+        <rename>ACCOUNT_TYPE_CODE</rename>
+      </field>
+      <field>
+        <name>REVENUE_JURISDICTION_CODE_R</name>
+        <rename>REVENUE_JURISDICTION_CODE</rename>
+      </field>
+      <field>
+        <name>REVENUE_DESCRIPTION_R</name>
+        <rename>REVENUE_DESCRIPTION</rename>
+      </field>
+      <field>
+        <name>REVENUE_AMOUNT_R</name>
+        <rename>REVENUE_AMOUNT</rename>
+      </field>
+      <field>
+        <name>BUNDLED_ELEMENT_CODE_R</name>
+        <rename>BUNDLED_ELEMENT_CODE</rename>
+      </field>
+      <field>
+        <name>APPLICABILITY_INDICATOR_R</name>
+        <rename>APPLICABILITY_INDICATOR</rename>
+      </field>
+      <field>
+        <name>FEED_CODE_R</name>
+        <rename>FEED_CODE</rename>
+      </field>
+      <field>
+        <name>TAXABLE_AMOUNT_R</name>
+        <rename>TAXABLE_AMOUNT</rename>
+      </field>
+      <field>
+        <name>SOURCE_SYSTEM_TAX_TYPE_CODE_R</name>
+        <rename>SOURCE_SYSTEM_TAX_TYPE_CODE</rename>
+      </field>
+      <field>
+        <name>TAX_ENGINE_CODE_R</name>
+        <rename>TAX_ENGINE_CODE</rename>
+      </field>
+      <field>
+        <name>REVENUE_SUB_CODE_R</name>
+        <rename>REVENUE_SUB_CODE</rename>
+      </field>
+      <field>
+        <name>TAX_ENGINE_APPLICABILITY_IND_R</name>
+        <rename>TAX_ENGINE_APPLICABILITY_IND</rename>
+      </field>
+      <field>
+        <name>REVENUE_SUB_DESC_R</name>
+        <rename>REVENUE_SUB_DESC</rename>
+      </field>
+      <field>
+        <name>BILL_ACTIVITY_TYPE_CODE_R</name>
+        <rename>BILL_ACTIVITY_TYPE_CODE</rename>
+      </field>
+      <field>
+        <name>BILL_ACTIVITY_TYPE_DESC_R</name>
+        <rename>BILL_ACTIVITY_TYPE_DESC</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>272</xloc>
+      <yloc>496</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values- Tax-Surcharge</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>TAX_ID_T</name>
+        <rename>TAX_ID</rename>
+      </field>
+      <field>
+        <name>PRODUCT_ID_T</name>
+        <rename>PRODUCT_ID</rename>
+      </field>
+      <field>
+        <name>COUNTRY_T</name>
+        <rename>COUNTRY</rename>
+      </field>
+      <field>
+        <name>RECORD_TYPE_CODE_T</name>
+        <rename>RECORD_TYPE_CODE</rename>
+      </field>
+      <field>
+        <name>INVOICE_DATE_T</name>
+        <rename>INVOICE_DATE</rename>
+      </field>
+      <field>
+        <name>BILLING_ACCOUNT_NUMBER_T</name>
+        <rename>BILLING_ACCOUNT_NUMBER</rename>
+      </field>
+      <field>
+        <name>SERVICE_NUMBER_T</name>
+        <rename>SERVICE_NUMBER</rename>
+      </field>
+      <field>
+        <name>LEGAL_ENTITY_CODE_SS_T</name>
+        <rename>LEGAL_ENTITY_CODE_SS</rename>
+      </field>
+      <field>
+        <name>GL_ACCOUNT_CODE_T</name>
+        <rename>GL_ACCOUNT_CODE</rename>
+      </field>
+      <field>
+        <name>TAX_TYPE_CODE_TAX_ENGINE_T</name>
+        <rename>TAX_TYPE_CODE_TAX_ENGINE</rename>
+      </field>
+      <field>
+        <name>TAX_TYPE_CODE_T</name>
+        <rename>TAX_TYPE_CODE</rename>
+      </field>
+      <field>
+        <name>TAX_LEVEL_T</name>
+        <rename>TAX_LEVEL</rename>
+      </field>
+      <field>
+        <name>SITUS_CODE_T</name>
+        <rename>SITUS_CODE</rename>
+      </field>
+      <field>
+        <name>TAX_BASE_DESCRIPTION_T</name>
+        <rename>TAX_BASE_DESCRIPTION</rename>
+      </field>
+      <field>
+        <name>TAX_SURCHARGE_AMOUNT_T</name>
+        <rename>TAX_SURCHARGE_AMOUNT</rename>
+      </field>
+      <field>
+        <name>RATE_T</name>
+        <rename>RATE</rename>
+      </field>
+      <field>
+        <name>RATE_METHOD_T</name>
+        <rename>RATE_METHOD</rename>
+      </field>
+      <field>
+        <name>FEED_CODE_T</name>
+        <rename>FEED_CODE</rename>
+      </field>
+      <field>
+        <name>BASE_AMOUNT_APPLICABLE_T</name>
+        <rename>BASE_AMOUNT_APPLICABLE</rename>
+      </field>
+      <field>
+        <name>TAX_ENGINE_CODE_T</name>
+        <rename>TAX_ENGINE_CODE</rename>
+      </field>
+      <field>
+        <name>B_SYSTEM_TAX_TYPE_DESC_T</name>
+        <rename>B_SYSTEM_TAX_TYPE_DESC</rename>
+      </field>
+      <field>
+        <name>REVENUE_SUB_CODE_T</name>
+        <rename>REVENUE_SUB_CODE</rename>
+      </field>
+      <field>
+        <name>BASE_AMOUNT_GROSS_T</name>
+        <rename>BASE_AMOUNT_GROSS</rename>
+      </field>
+      <field>
+        <name>BASE_AMOUNT_EXEMPT_T</name>
+        <rename>BASE_AMOUNT_EXEMPT</rename>
+      </field>
+      <field>
+        <name>BASE_AMOUNT_NON_APP_T</name>
+        <rename>BASE_AMOUNT_NON_APP</rename>
+      </field>
+      <field>
+        <name>TAX_ON_TAX_BASE_AMOUNT_T</name>
+        <rename>TAX_ON_TAX_BASE_AMOUNT</rename>
+      </field>
+      <field>
+        <name>REVENUE_SUB_DESC_T</name>
+        <rename>REVENUE_SUB_DESC</rename>
+      </field>
+      <field>
+        <name>BILL_ACTIVITY_TYPE_CODE_T</name>
+        <rename>BILL_ACTIVITY_TYPE_CODE</rename>
+      </field>
+      <field>
+        <name>BILL_ACTIVITY_TYPE_DESC_T</name>
+        <rename>BILL_ACTIVITY_TYPE_DESC</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>240</xloc>
+      <yloc>784</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table input - Bills</name>
+    <type>TableInput</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>OBIAR</connection>
+    <sql>SELECT       
+       -- Account Block
+       'Account' AS record_type_code_a,
+       TO_CHAR(bill.bill_dt,'MMDDYYYY') AS invoice_date_a,
+       TRIM(a.global_acct_id) AS billing_account_number_a,
+       (TRIM(ap.first_name) || ' ' || TRIM(ap.last_name)) AS billing_account_name_a,
+       (TRIM(ap.street)  || ' ' || TRIM(ap.street3)) AS billing_address_street_a,
+       COALESCE(TRIM(ap.city),' ') AS billing_address_city_a,
+       COALESCE(TRIM(ap.state_province),' ') AS billing_address_state_a,
+       COALESCE(TRIM(ap.zip_postal_code),' ') AS billing_address_zip_a,
+       COALESCE(TRIM(ap.apt_suite),' ') AS billing_address_apt_no_a,
+       'N' as tax_exempt_indicator_a,
+       ' ' as tax_exempt_code_a,
+       ' ' as tax_exempt_level_a,
+       ' ' as customer_fein_a,
+       ' ' as acna_a,
+       TO_CHAR(TO_DATE('${END_DT}', 'YYYY-MM-DD'),'YYYYMM') AS gl_period_a,
+       'BATO' AS feed_code_a,
+       ' ' AS grade_of_service_a,
+       ' ' AS summary_account_number_a,
+       ' ' AS filler_account_a,
+       
+       -- Service data
+       'Service' AS record_type_code_s,
+       TO_CHAR(bill.bill_dt,'MMDDYYYY') AS invoice_date_s,
+       TRIM(a.global_acct_id) AS billing_account_number_s,
+       bi.order_id AS service_number_s,
+       (TRIM(ap.first_name) || ' ' || TRIM(ap.last_name)) AS service_name_s,
+       COALESCE(TRIM(t.street),' ') AS service_address_street_s,
+       COALESCE(TRIM(t.city),' ') AS service_address_city_s,
+       COALESCE(TRIM(t.state_province),' ') AS service_address_state_s,
+       COALESCE(TRIM(t.zip_postal_code),' ') AS service_address_zip_s,
+       ' ' AS service_address_apt_no_s, 
+       (
+       CASE WHEN t.customer_taid=-1 THEN '000000000'
+            ELSE LPAD(NVL(TO_CHAR(t.customer_taid),'000000000'),9,'0')
+            END
+       ) AS situs_code_s,
+       '01' AS tax_engine_code_s, 
+       'BATO' AS feed_code_s,
+       'R' AS type_of_account_s,
+       ' ' AS filler1_s,
+       ' ' AS filler2_s,
+       ' ' AS filler3_s,       
+       
+       -- Revenue Block 
+       'B' AS indicator_r,
+       t.tax_id AS tax_id_r,
+       TRIM(TO_CHAR(bi.product_id)) AS product_id_r, 
+       t.country AS country_r,
+       'Revenue' AS record_type_code_r,
+       TO_CHAR(bill.bill_dt,'MMDDYYYY') AS invoice_date_r,
+       TRIM(a.global_acct_id) AS billing_account_number_r,
+       bi.order_id AS service_number_r,
+       '700260' AS legal_entity_code_ss_r,
+       'R' AS account_type_code_r,
+       '0' AS revenue_jurisdiction_code_r,
+       'PHONE' AS revenue_description_r,
+       td.taxable_amount/100 AS revenue_amount_r,       
+       ' ' AS bundled_element_code_r,
+       ' ' AS applicability_indicator_r,       
+       'BATO' AS feed_code_r,       
+       (
+       CASE WHEN bi.gross_amount != 0 THEN td.taxable_amount/100
+            ELSE 0.00
+            END
+       ) AS taxable_amount_r, 
+       ' ' AS source_system_tax_type_code_r,
+       '01' AS tax_engine_code_r,
+       --revenue_code
+       ' ' AS revenue_sub_code_r,
+       ' ' AS tax_engine_applicability_ind_r,
+       --revenue_desc
+       ' ' AS revenue_sub_desc_r,
+       'Monthly Fee' AS bill_activity_type_code_r,
+       ' ' AS bill_activity_type_desc_r,
+       
+       --Tax-Surcharge Block
+      t.tax_id AS tax_id_t,
+      TRIM(TO_CHAR(bi.product_id)) AS product_id_t, 
+      t.country AS country_t,
+      'Tax-Surcharge' AS record_type_code_t,
+      TO_CHAR(bill.bill_dt,'MMDDYYYY') AS invoice_date_t,
+      TRIM(a.global_acct_id) AS billing_account_number_t,
+      bi.order_id AS service_number_t,
+      '700260' AS legal_entity_code_ss_t,
+      (
+        CASE WHEN t.state_province = 'AZ' THEN '490213'
+             WHEN t.state_province = 'HI' THEN '490213'
+             WHEN t.state_province = 'NM' THEN '490213'
+             ELSE '224013' 
+        END     
+       ) AS gl_account_code_t,
+      SUBSTR(TRIM(td.imposition_type),1,50) AS tax_type_code_tax_engine_t,
+      ' ' AS tax_type_code_t,
+      tp.short_desc AS tax_level_t, -- Will be used to evaluate tax_level
+      (
+       CASE WHEN t.customer_taid=-1 THEN '000000000'
+            ELSE LPAD(NVL(TO_CHAR(t.customer_taid),'000000000'),9,'0')
+            END
+      ) AS situs_code_t,
+      'PHONE' AS tax_base_description_t,
+      (td.amount/100) AS tax_surcharge_amount_t,
+      td.rate AS rate_t,
+      'P' AS rate_method_t,
+      'BATO' AS feed_code_t,
+      (
+       CASE WHEN bi.gross_amount != 0 THEN td.taxable_amount/100
+            ELSE 0.00
+            END
+       ) AS base_amount_applicable_t,
+      '01' AS tax_engine_code_t,
+      SUBSTR(TRIM(td.imposition_type),1,50) AS b_system_tax_type_desc_t,
+      --revenue_code
+      ' ' AS revenue_sub_code_t,
+      td.taxable_amount/100 AS base_amount_gross_t,
+      0.00 AS base_amount_exempt_t,
+      (
+       CASE WHEN bi.gross_amount = 0 THEN td.taxable_amount/100
+            ELSE 0.00
+            END
+      ) AS base_amount_non_app_t,
+      0.00 AS tax_on_tax_base_amount_t,
+      --revenue_desc
+      ' ' AS revenue_sub_desc_t,
+      'Monthly Fee' AS bill_activity_type_code_t,
+      ' ' AS bill_activity_type_desc_t 
+      
+FROM line_item_bill bill,
+     billed_line_item_balance blib,
+     line_item_balance bal,
+     balance_impact bi,
+     tax t,
+     tax_detail td,
+     tax_type tp,
+     account a,
+     acct_pm ap
+ 
+WHERE bill.line_item_bill_id = blib.line_item_bill_id
+  AND blib.line_item_balance_id = bal.line_item_balance_id
+  AND bal.line_item_balance_id = bi.line_item_balance_id
+  AND bi.activity_reason_code='tax100' -- tax100 : Tax for the Original Charge
+  AND bill.lineitem = 148
+  AND bi.created_dt >= TO_DATE('${START_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bi.created_dt &lt; TO_DATE('${END_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND bill.last_modified_dt >= TO_DATE('${START_DT} 00:00:00', 'YYYY-MM-DD HH24:MI:SS') - 10  -- Added to use indexed column and avoid full table scan
+  AND bill.last_modified_dt &lt;= sysdate + 10 -- Added to use indexed column and avoid full table scan
+  AND bi.tax_id = t.tax_id
+  AND t.tax_id = td.tax_id
+  AND td.tax_type_id = tp.tax_type_id(+)
+  AND bill.acct_id = a.acct_id
+  AND a.acct_id = ap.acct_id 
+  AND bill.payment_method_id = ap.payment_method_id
+  AND ${GLOBAL_ACCT_ID_WHERE_CLAUSE}       </sql>
+    <limit>0</limit>
+    <lookup />
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>48</xloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step_error_handling>
+  </step_error_handling>
+  <slave-step-copy-partition-distribution>
+  </slave-step-copy-partition-distribution>
+  <slave_transformation>N</slave_transformation>
+</transformation>
